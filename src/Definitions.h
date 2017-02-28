@@ -6,6 +6,8 @@
 
 #ifdef __linux__
     #define LINUX
+#elif __APPLE__
+    #define APPLE
 #else
     #define WINDOWS
 #endif
