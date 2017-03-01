@@ -3,6 +3,11 @@
 
 #include "Definitions.h"
 #include "Utility.h"
+
+#ifdef __APPLE__
+#include "pthread_barrier.h"
+#endif
+
 #include <fstream>
 #include <iostream>
 #include <sstream>

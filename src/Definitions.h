@@ -8,71 +8,6 @@
     #define LINUX
 #elif __APPLE__
     #define APPLE
-#ifndef PTHREAD_BARRIER_H_
-#define PTHREAD_BARRIER_H_
-
-#include <pthread.h>
-#include <errno.h>
-
-typedef int pthread_barrierattr_t;
-typedef struct
-{
-    pthread_mutex_t mutex;
-    pthread_cond_t cond;
-    int count;
-    int tripCount;
-} pthread_barrier_t;
-
-
-int pthread_barrier_init(pthread_barrier_t *barrier, const pthread_barrierattr_t *attr, unsigned int count)
-{
-    if(count == 0)
-    {
-        errno = EINVAL;
-        return -1;
-    }
-    if(pthread_mutex_init(&barrier->mutex, 0) < 0)
-    {
-        return -1;
-    }
-    if(pthread_cond_init(&barrier->cond, 0) < 0)
-    {
-        pthread_mutex_destroy(&barrier->mutex);
-        return -1;
-    }
-    barrier->tripCount = count;
-    barrier->count = 0;
-
-    return 0;
-}
-
-int pthread_barrier_destroy(pthread_barrier_t *barrier)
-{
-    pthread_cond_destroy(&barrier->cond);
-    pthread_mutex_destroy(&barrier->mutex);
-    return 0;
-}
-
-int pthread_barrier_wait(pthread_barrier_t *barrier)
-{
-    pthread_mutex_lock(&barrier->mutex);
-    ++(barrier->count);
-    if(barrier->count >= barrier->tripCount)
-    {
-        barrier->count = 0;
-        pthread_cond_broadcast(&barrier->cond);
-        pthread_mutex_unlock(&barrier->mutex);
-        return 1;
-    }
-    else
-    {
-        pthread_cond_wait(&barrier->cond, &(barrier->mutex));
-        pthread_mutex_unlock(&barrier->mutex);
-        return 0;
-    }
-}
-
-#endif // PTHREAD_BARRIER_H_
 #else
     #define WINDOWS
 #endif
@@ -95,7 +30,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
 
 #ifdef USE_MPI
 #include <mpi.h>
-#pragma message("Compiled with MPI SUPPORT")
+// #pragma message("Compiled with MPI SUPPORT")
 #endif
 
 
@@ -108,7 +43,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
 //! For intel use propetary MKL, it will be preferred over others
 #ifdef __INTEL_MKL__
     #include <boost/math/distributions/normal.hpp>
-    #pragma message("MKL will Probably NOT compile")
+//    #pragma message("MKL will Probably NOT compile")
     #include "mkl.h"
     #include "cblas.h"
     #include <lapacke.h>
@@ -118,7 +53,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
     //! For AMD systems use the proper ACML library,
     //! preferred over openblas ON AMD
     #ifdef _acml_
-        #pragma message("Compiled with AMD ACML")
+//        #pragma message("Compiled with AMD ACML")
         #define blas_set_num_threads(n) omp_set_num_threads(n)
 
         #include <acml.h>
@@ -201,7 +136,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
         //! IF MKL is not present on INTEL, use openblas
         #ifdef _openblas_
             #include <boost/math/distributions/normal.hpp>
-            #pragma message("Compiled with OPENBLAS")
+//            #pragma message("Compiled with OPENBLAS")
             #define STORAGE_TYPE LAPACK_COL_MAJOR
             #include "cblas.h"
             #include <lapacke.h>
