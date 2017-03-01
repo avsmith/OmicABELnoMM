@@ -147,3 +147,32 @@ See: http://stackoverflow.com/questions/33394934/converting-std-cxx11string-to-s
           parse_params(int, char**, Settings&) in omicabelnomm-main.o
 
 **NOTE**: The error changes, but still no dice. Seting -D flag to 1 results in previous
+
+# Attempt 11
+
+1. CXX=g++-6 CXXFLAGS="-fopenmp" LDFLAGS="-L/usr/local/opt/openblas/lib -L/usr/local/lib" CPPFLAGS="-I/usr/local/opt/openblas/include -I/usr/local/include" ./configure --with-boost-include-path=/usr/local/include/boost
+2. make
+
+# Attempt 12
+
+1. Move pthreadbarrier to separate file (not specifically needed)
+2. Label pthread_barrier functions 'inline'
+3. make
+
+**Successful compile**
+
+# Working protocol
+
+1. aclocal
+2. autoheader
+3. automake --force-missing --add-missing
+4. autoconf
+5. CXX=g++-6 CXXFLAGS="-fopenmp" LDFLAGS="-L/usr/local/opt/openblas/lib -L/usr/local/lib" CPPFLAGS="-I/usr/local/opt/openblas/include -I/usr/local/include" ./configure --with-boost-include-path=/usr/local/include/boost
+6. make
+
+Requirements:
+homebrew
+homebrew gcc
+homebrew boost
+homebrew openblas
+homebrew autoconf-archive
