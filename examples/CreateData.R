@@ -1,5 +1,5 @@
 source("settings.R")
-
+set.seed(45)
 
 
 ############Interactions INI ##########################
