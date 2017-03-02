@@ -51,6 +51,8 @@
 /examples/XRint01.fvi
 /examples/Y.fvd
 /examples/Y.fvi
+/examples/flag*.txt
+/examples/*.csv
 /.btmp
 /doc/UserGuide.log
 /doc/UserGuide.out
