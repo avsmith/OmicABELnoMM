@@ -176,3 +176,9 @@ homebrew gcc
 homebrew boost
 homebrew openblas
 homebrew autoconf-archive
+homebrew open-mpi
+
+** With MPI **
+
+
+    CXX=g++-6 CXXFLAGS="-fopenmp" LDFLAGS="-L/usr/local/opt/openblas/lib -L/usr/local/lib" CPPFLAGS="-I/usr/local/opt/openblas/include -I/usr/local/include" ./configure --with-boost-include-path=/usr/local/include/boost --with-mpi
